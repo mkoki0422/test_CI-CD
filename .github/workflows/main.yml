@@ -6,9 +6,11 @@ name: deploy
 #      - main
 #    types: [closed]
 
-push:
-  branches:
-    - main
+on:
+  push:
+    branches:
+      - main
+      - dev
 
 
 
