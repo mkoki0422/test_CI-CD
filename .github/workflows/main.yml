@@ -1,0 +1,40 @@
+name: deploy
+
+#on:
+#  pull_request:
+#    branches: 
+#      - main
+#    types: [closed]
+
+push:
+  branches:
+    - dev-*
+
+
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      # See: https://github.com/actions/checkout
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.15.1
+
+      # install severlessfreamework
+      - name: Install severlessfreamework
+        run: |
+          npm install serverless -g
+          npm install
+          
+      # Deploy to Lambda  
+      - name: Deploy to Lambda
+        run: sls deploy -v --stage=dev
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
