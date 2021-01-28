@@ -1,23 +1,46 @@
 name: deploy
 
-#on:
-#  pull_request:
-#    branches: 
-#      - main
-#    types: [closed]
-
 on:
   push:
-    branches:
+    branches: 
       - main
-      - dev
+      - test
 
-
+#on:
+#  push:
+#    branches:
+#      - dev-*
 
 jobs:
+
+  unittest:
+    name: unittest 
+    runs-on: ubuntu-latest
+    steps:
+      # See: https://github.com/actions/checkout
+      - name: Checkout
+        uses: actions/checkout@v2
+      # See: https://github.com/actions/setup-python
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      # install pipenv and deps
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      # test
+      - name: Run Tests
+        run: python -m run_unittest -v
+
+
+
   deploy:
     name: deploy
+    needs: unittest
     runs-on: ubuntu-latest
+    
     steps:
       # See: https://github.com/actions/checkout
       - name: Checkout
@@ -36,7 +59,7 @@ jobs:
           
       # Deploy to Lambda  
       - name: Deploy to Lambda
-        run: sls deploy -v --stage=dev
+        run: sls deploy -v --stage=prod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
