@@ -25,6 +25,8 @@ provider:
   runtime: python3.8
   profile: ${opt:profile}
 
+  environment:
+    SLACK_API_TOKEN: ${env:SLACK_API_TOKEN}
 
 # you can overwrite defaults here
 #  stage: dev
