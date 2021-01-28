@@ -2,7 +2,7 @@ import json
 
 SLACK_API_TOKEN = os.environ.get('SLACK_API_TOKEN')
 
-def hello(event, context):
+def lambda_handler(event, context):
     body = {
         "message": SLACK_API_TOKEN,
         "input": event
