@@ -23,6 +23,8 @@ frameworkVersion: '2'
 provider:
   name: aws
   runtime: python3.8
+  profile: ${opt:profile}
+
 
 # you can overwrite defaults here
 #  stage: dev

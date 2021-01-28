@@ -1,9 +1,10 @@
 import json
 
+SLACK_API_TOKEN = os.environ.get('SLACK_API_TOKEN')
 
 def hello(event, context):
     body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
+        "message": SLACK_API_TOKEN,
         "input": event
     }
 
@@ -22,3 +23,4 @@ def hello(event, context):
         "event": event
     }
     """
+.
